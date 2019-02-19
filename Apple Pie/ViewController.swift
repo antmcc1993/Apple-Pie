@@ -57,11 +57,22 @@ class ViewController: UIViewController {
     }
     
     func newRound() {
-        let newWord = listOfWords.removeFirst()
-        currentGame = Game(word: newWord, incorrectMovesRemaining : incorrectMovesAllowed, guessedLetters : [])
-        updateUI()
+        if !listOfWords.isEmpty {
+            let newWord = listOfWords.removeFirst()
+            currentGame = Game(word : newWord, incorrectMovesRemaining: incorrectMovesAllowed, guessedLetters: [])
+            enableLetterButtons(true)
+            updateUI()
+        } else {
+            enableLetterButtons(false)
+        }
     }
     
+    
+    func enableLetterButtons(_ enable: Bool) {
+        for button in letterButtons {
+            button.isEnabled = enable
+        }
+    }
     func updateUI() {
         var letters = [String]()
         for letter in currentGame.formattedWord {
@@ -72,9 +83,7 @@ class ViewController: UIViewController {
         scoreLabel.text = "Wins: \(totalWins), Losses: \(totalLosses)"
         treeImageView.image = UIImage(named: "Tree \(currentGame.incorrectMovesRemaining)")
         }
-    
-    
-    
+
     
 }
 
